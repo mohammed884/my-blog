@@ -1,0 +1,46 @@
+* {
+    box-sizing: border-box;
+    font-family: "Cairo", sans-serif;
+    font-display: swap;
+}
+.ar {
+    direction: rtl
+}
+.en {
+    direction: ltr
+}
+.bg-none {
+    background: none;
+}
+input, textarea {
+    outline: none;
+}
+.code {
+    tab-size: 4;  
+    line-height: 1.8em;
+    white-space: pre;   
+    color:#fff
+}
+@layer components {
+    body {
+        @apply bg-off_white ar
+    }
+    .down-effect {
+        @apply hover:translate-y-1 transition-transform duration-150 ease-out
+    }
+    .content-header {
+        @apply text-[2.1rem] font-bold
+    }
+    form div {
+        @apply mt-3
+    }
+    form label {
+        @apply text-[1.2rem] font-medium
+    }
+    form input, form textarea {
+        @apply w-[45%] border-2  bg-none rounded-sm mt-3 p-2 
+    }
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
