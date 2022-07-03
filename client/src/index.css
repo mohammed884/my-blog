@@ -19,8 +19,9 @@ input, textarea {
     tab-size: 4;  
     line-height: 1.8em;
     white-space: pre;   
-    color:#fff
+    color:#F1F1F1
 }
+
 @layer components {
     body {
         @apply bg-off_white ar
@@ -35,7 +36,7 @@ input, textarea {
         @apply mt-3
     }
     form label {
-        @apply text-[1.2rem] font-medium
+        @apply text-[.9rem] font-medium
     }
     form input, form textarea {
         @apply w-[45%] border-2  bg-none rounded-sm mt-3 p-2 

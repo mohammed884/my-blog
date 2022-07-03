@@ -36,20 +36,26 @@ const generateHtml = (type, data) => {
             const highlighted = [];
             let num = 1;
             const keywords = [
-                { key: "(", classes: "text-yellow-200" },
-                { key: ")", classes },
-                { key: `"` },
-                { key: "{" },
-                { key: "}" },
-                { key: "<" },
-                { key: ">" }
+                { title: "(", classes: ["text-[#E04D01]"] },
+                { title: ")", classes: ["text-[#E04D01]"] },
+                { title: `"`, classes: ["text-[#F15412]"] },
+                { title: "{",classes: ["text-yellow-500"] },
+                { title: "}",classes: ["text-yellow-500"] },
+                { title: "/", classes: ["text-custom_blue"] },
+                { title: "[", classes: ["text-[#EBECF1]"] },
+                { title: "]", classes: ["text-[#EBECF1]"] },
+                { title: "<", classes: ["text-custom_blue"] },
+                { title: ">", classes: ["text-custom_blue"] },
+                { title: "=", classes: ["text-custom_blue"] },
+                { title: "$", classes: ["text-red-500"] },
+                { title: "&", classes: ["text-red-500"] },
             ]
             for (let i = 0; i < splitedCode.length; i++) {
                 let element = splitedCode[i]
                 if (element.search("\n") > -1) lines.push(num++);
-                const isKeyword = keywords.find(k => k === element)
-                if (isKeyword) {
-                    const span = createElementWithContent("span", element, ["text-yellow-200"]);
+                const keyword = keywords.find(k => k.title === element)
+                if (keyword) {
+                    const span = createElementWithContent("span", element, keyword.classes);
                     element = span
                 }
                 highlighted.push(element)
@@ -57,11 +63,11 @@ const generateHtml = (type, data) => {
             lines.push(num++)
             return <div class="bg-gray-800 p-4 en">
                 <pre class="flex">
-                    <div class="w-[5%] flex flex-col leading-[1.8em]">
+                    <div class="w-[5%] flex flex-col leading-[1.861em]">
                         {
                             lines.map(line => <span class="text-slate-200">
                                 {line}
-                                <span class="text-red-500"> -&gt</span>
+                                <span class="text-[#FF5656]"> -&gt</span>
                             </span>)
                         }
                     </div>
