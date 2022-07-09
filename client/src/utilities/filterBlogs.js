@@ -1,12 +1,13 @@
 export const filterBlogs = (blogs, tags) => {
-    const data = [];
+    const filteredBlogs = [];
     for (let i = 0; i < blogs.length; i++) {
         const blog = blogs[i];
         for (let x = 0; x < tags.length; x++) {
             const tag = tags[x];
             const isSelected = blog.tags.some(({title}) => title === tag);
-            if (isSelected) data.push(blog)
+            const isExists = filteredBlogs.some((filteredBlog) => filteredBlog.title === blog.title);
+            if (isSelected && !isExists) filteredBlogs.push(blog)
         }
     }
-    return data
+    return filteredBlogs
 }

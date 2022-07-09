@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    font-family: "Cairo", sans-serif;
+    font-family: "Cairo", "Roboto";
     font-display: swap;
 }
 .ar {
@@ -21,7 +21,6 @@ input, textarea {
     white-space: pre;   
     color:#F1F1F1
 }
-
 @layer components {
     body {
         @apply bg-off_white ar
@@ -32,6 +31,9 @@ input, textarea {
     .content-header {
         @apply text-[2.1rem] font-bold
     }
+    .code-container {
+        @apply bg-gray-800 p-3 en
+    }
     form div {
         @apply mt-3
     }
@@ -39,7 +41,7 @@ input, textarea {
         @apply text-[.9rem] font-medium
     }
     form input, form textarea {
-        @apply w-[45%] border-2  bg-none rounded-sm mt-3 p-2 
+        @apply w-[100%] border-2 border-slate-100  bg-none rounded-sm mt-3 p-2 
     }
 }
 @tailwind base;

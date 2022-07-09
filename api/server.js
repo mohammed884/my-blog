@@ -5,7 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import compression from "compression";
-import articleRoute from "./routes/article.js";
+import blogRoute from "./routes/blog.js";
 import tagRoute from "./routes/tag.js";
 const { COOKIE_PARSER_SECRET, CLIENT_URL, DB_URL } = process.env;
 const app = express();
@@ -18,16 +18,15 @@ mongoose.connect(DB_URL, {
 });
 
 //APPLY MIDDLEWARE
+app.use(compression())
 app.use(cors({
     origin: CLIENT_URL,
     credentials: true,
 }));
 app.use(cookieParser(COOKIE_PARSER_SECRET));
 app.use(express.json());
-app.use(compression())
-// app.use(express.urlencoded({ extended: false }))
-
-app.use("/blog", articleRoute)
+app.use(express.urlencoded({ extended: false }))
+app.use("/blog", blogRoute)
 app.use("/tag", tagRoute)
 
 //SERVER

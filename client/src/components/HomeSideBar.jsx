@@ -1,19 +1,19 @@
 import { createResource } from "solid-js"
-import { getArticles } from "../actions/actions";
-import BlogList from "./ArticleList";
+import { getBlogs } from "../actions/actions";
+import BlogList from "./BlogList";
 export default function HomeSideBar() {
-  const [popularArticles] = createResource(getArticles)
+  const [popularBlogs] = createResource(getBlogs)
   return (
-    <aside class="w-[65%] mr-4 sticky">
+    <aside class="w-[30%] mr-6 sticky">
       <div class="flex items-center">
-        <h1 class="text-[1.4rem] font-bold ml-1">
+        {/* <h1 class="text-[1.4rem] font-bold ml-1">
           مقالات رائجة
-        </h1>
-        <img src="/src/assets/svgs/fire.svg" alt="fire icon" width="20" height="20"/>
+        </h1> */}
+        {/* <img src="/src/assets/svgs/fire.svg" alt="fire icon" width="20" height="20"/> */}
       </div>
       <div class="w-[100%] mt-3">
-        <Show when={!popularArticles.loading} fallback={<p>...Loading</p>}>
-          <For each={popularArticles()}>{(article, index) => <BlogList isPopular={true} article={article} index={index} />}</For>
+        <Show when={!popularBlogs.loading} fallback={<p>...Loading</p>}>
+          <For each={popularBlogs()}>{(blog, index) => <BlogList isPopular={true} blog={blog} index={index} />}</For>
         </Show>
       </div>
     </aside>

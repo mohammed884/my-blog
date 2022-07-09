@@ -1,6 +1,6 @@
 import { createSignal, createResource, For, Show } from "solid-js";
 import { getTags, } from "../actions/actions"
-import { articles, setFilteredArticles} from "../pages/Home"
+import { blogs, setFilteredBlogs} from "../pages/Home"
 import { filterBlogs } from "../utilities/filterBlogs";
 const [selectedTags, setSelectedTags] = createSignal([]);
 function Search() {
@@ -11,7 +11,7 @@ function Search() {
         const isSelected = selectedTags().includes(tag);
         if (isSelected) setSelectedTags(selectedTags().filter(t => t !== tag))
         else setSelectedTags([...selectedTags(), tag]);
-        setFilteredArticles(filterBlogs(articles(), selectedTags()))
+        setFilteredBlogs(filterBlogs(blogs(), selectedTags()))
     }
     const handleSearch = ({ target: value }) => {
         if (!value || value === " ") return;
@@ -21,9 +21,9 @@ function Search() {
     return (
         <div class="mt-8 sm:w-[100%] lg:w-[40%] min-h-[20vh]">
             <div class="mb-3">
-                <input onInput={handleSearch} class="w-[100%] bg-[#f0f2f2] border-r-2 rounded-sm outline-0 border-custom_blue p-2" type="search" placeholder="ابحث من هنا..." />
+                <input onInput={handleSearch} class="w-[100%] bg-white border-r-2 rounded-sm outline-0 border-custom_blue p-2" type="search" placeholder="ابحث من هنا..." />
             </div>
-            <div class="w-[70%] bg-slate-200 rounded-[.1em] border-r-2 border-emerald-400 p-2">
+            <div class="w-[70%] bg-slate-200 rounded-[.1em] border-r-2 border-emerald-400 p-2 mt-2">
                 <div class="flex">
                     <span class="font-bold">ملاحظة</span>
                 </div>
@@ -31,7 +31,7 @@ function Search() {
                     <p>يمكنك استخدام الهاشتاكات للبحث عن المقالات</p>
                 </div>
             </div>
-            <div class="w-[100%] flex flex-wrap gap-3 mt-2">
+            <div class="w-[100%] flex flex-wrap gap-3 mt-5">
                 <Show when={!tags.loading} fallback={<p>...Loading</p>}>
                     <For each={tags()}>
                         {
@@ -44,7 +44,7 @@ function Search() {
                                                 w-fit 
                                                 h-fit 
                                                 pl-4 
-                                                border 
+                                                border
                                                 ${selectedTags().includes(tag.title) ? "border-emerald-400" : "border-[#06283D]"}
                                                 cursor-pointer 
                                                 rounded-sm

@@ -5,16 +5,15 @@ export const getTags = async () => {
     const { data } = await axios(url);
     return data;
 }
-export const getArticles = async () => {
+export const getBlogs = async () => {
     const url = `${VITE_SERVER_URL}/blog`
     const { data } = await axios(url);
-    return data;
+    return data.blogs;
 }
-export const getArticle = async title => {
+export const getBlog = async title => {
     const url = `${VITE_SERVER_URL}/blog/${title}`
     const { data } = await axios(url);
-    console.log(data);
-    return data;
+    return data.blog;
 }
 export const search = async title => {
     const url = `${VITE_SERVER_URL}/blog/search?title=${title}`

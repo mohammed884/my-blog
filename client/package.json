@@ -26,6 +26,8 @@
     "@editorjs/image": "^2.6.2",
     "@editorjs/list": "^1.7.0",
     "@fontsource/cairo": "^4.5.9",
+    "@fontsource/noto-sans-arabic": "^4.5.10",
+    "@fontsource/roboto": "^4.5.7",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "solid-app-router": "^0.3.3",
