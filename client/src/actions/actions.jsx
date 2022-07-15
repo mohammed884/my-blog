@@ -8,12 +8,13 @@ export const getTags = async () => {
 export const getBlogs = async () => {
     const url = `${VITE_SERVER_URL}/blog`
     const { data } = await axios(url);
-    return data.blogs;
+    return data;
 }
 export const getBlog = async title => {
-    const url = `${VITE_SERVER_URL}/blog/${title}`
+    const url = `${VITE_SERVER_URL}/blog/${title.replace(/-/g, " ")}`
     const { data } = await axios(url);
-    return data.blog;
+    console.log(data);
+    return data;
 }
 export const search = async title => {
     const url = `${VITE_SERVER_URL}/blog/search?title=${title}`

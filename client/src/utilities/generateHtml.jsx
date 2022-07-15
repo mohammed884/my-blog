@@ -23,18 +23,20 @@ const createElementWithContent = (tag, content, classes = []) => {
 };
 
 const generateHtml = (type, data) => {
+    console.log(type, data);
     switch (type) {
         case "paragraph":
             return createElementWithContent("p", data.text, ["text-[1.1rem]", "font-medium"])
 
-        case "list": 
+        case "list":
             const { items } = data;
             return <ul>{items.map(list => createElementWithContent("li", list))}</ul>
 
-        case "header": 
+        case "header":
             const { text, level } = data;
             return createElementWithContent(`h${level}`, text, ["content-header"])
-        case "code": {
+
+        case "code":
             const { code } = data;
             const splitedCode = code.split("");
             const lines = []
@@ -63,8 +65,8 @@ const generateHtml = (type, data) => {
                     </code>
                 </pre>
             </div>
-        }
-        case "embed": {
+
+        case "embed":
             const { embed, service, width, height, caption } = data;
             return <figure>
                 <iframe
@@ -76,7 +78,7 @@ const generateHtml = (type, data) => {
                     title={`${service} iframe`}></iframe>
                 {caption && <figcaption>{caption}</figcaption>}
             </figure>
-        }
+
     }
 }
 export default generateHtml

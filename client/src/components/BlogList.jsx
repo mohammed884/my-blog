@@ -5,7 +5,7 @@ function BlogList({ blog, index, isPopular }) {
     const { title, tags, date, shortDescription, views, cover } = blog;
     return (
         <article class="h-fit border p-3 rounded-sm">
-            <img class="w-[100%] aspect-video rounded-md" src={`/src/assets/images/${cover}`} alt={`${title} blog image`} />
+            <img class="w-[100%] aspect-video rounded-md" src={`/src/assets/uploads/${cover}`} alt={`${title} blog image`} />
             <div class="flex items-center mt-2">
                 <p class={`${!isPopular ? "text-[1.4rem]" : "text-[1.2rem]"} text-[#06283D] font-semibold`}>{title}</p>
                 <div class="flex items-center mr-2 text-[.9rem]">

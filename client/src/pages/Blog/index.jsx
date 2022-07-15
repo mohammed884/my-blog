@@ -1,10 +1,15 @@
-import { createResource, Show } from "solid-js";
-import { getBlog } from "../actions/actions";
+import { createResource, Show ,createEffect} from "solid-js";
+import { getBlog } from "../../actions/actions";
 import { useParams } from 'solid-app-router';
 function Blog() {
     const params = useParams();
     const [blog] = createResource(params.title, getBlog);
     // const [relatedBlogs] = createResource(blog().tags, getRelatedBlogs);
+    createEffect(() => {
+        if (blog.loading) return;
+        const contentContainer = document.getElementById("content");
+        contentContainer.innerHTML = blog().content
+    })
     return (
         <div class="w-[90%] h-[100vh] mx-auto">
             <Show when={!blog.loading} fallback={<p>...Loading</p>}>
@@ -28,14 +33,11 @@ function Blog() {
                         </div>
                     </div>
                     <time class="text-[.9rem] text-light_dark">{blog().date}</time>
-                    <label class="h-fit" htmlFor="content">
-                        <textarea
-                            class="w-[100%] min-h-[90%] text-light_dark bg-[#f4f6f6] mt-4 resize-none outline-none"
-                            id="content"
-                            readOnly>
-                            {blog().content}
-                        </textarea>
-                    </label>
+                    <div
+                        class="w-[100%] min-h-[90%] text-light_dark bg-[#f4f6f6] mt-4 resize-none outline-none"
+                        id="content">
+                        {blog().content}
+                    </div>
                     <div class="mt-5">
                         <For each={blog().tags}>
                             {tag => <span class="border border-custom_blue p-2">{tag.title}</span>}

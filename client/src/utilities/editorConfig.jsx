@@ -3,25 +3,12 @@ import List from '@editorjs/list';
 import Embed from '@editorjs/embed';
 import Image from '@editorjs/image';
 import Code from '@editorjs/code';
+import Marker from '@editorjs/marker';
 const editorConfig = {
-  /** 
-   * Id of Element that should contain the Editor 
-   */
   holder: 'editorjs',
-
-  /** 
-   * Available Tools list. 
-   * Pass Tool's class or Settings object for each Tool you want to use 
-   */
   tools: {
-    header: {
-      class: Header,
-      inlineToolbar:["link"]
-    },
-    list: { 
-      class: List, 
-      inlineToolbar:["link", "bold"]
-    },
+    header: Header,
+    list: List,
     embed: {
       class: Embed,
       inlineToolbar: false,
@@ -39,10 +26,9 @@ const editorConfig = {
         byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
       }
     },
-    code:{
-      class:Code,
-      
-    }
-  }
+    code:Code,
+    marker:Marker,
+  },
+  placeholder:"لنكتب مقالا رائعا"
 };
 export default editorConfig;

@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import compression from "compression";
 import blogRoute from "./routes/blog.js";
 import tagRoute from "./routes/tag.js";
+import loginRoute from "./routes/login.js";
 const { COOKIE_PARSER_SECRET, CLIENT_URL, DB_URL } = process.env;
 const app = express();
 const PORT = 5000;
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 app.use("/blog", blogRoute)
 app.use("/tag", tagRoute)
+app.use("/login", loginRoute)
 
 //SERVER
 app.listen(PORT, (err) => {
