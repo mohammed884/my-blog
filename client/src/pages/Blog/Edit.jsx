@@ -14,7 +14,6 @@ function Edit() {
     const [shortDescription, setShortDescription] = createSignal("");
     const [selectedTags, setSelectedTags] = createSignal([]);
     const [cover, setCover] = createSignal({});
-    const [blocks, setBlocks] = createSignal([]);
     let elementWithError = ""
     let editor;
     createEffect(() => {
@@ -29,21 +28,21 @@ function Edit() {
     const handleSubmit = async e => {
         e.preventDefault();
         let content = "";
-        const URL = `${import.meta.env.VITE_SERVER_URL}/blog/add`;
+        const URL = `${import.meta.env.VITE_SERVER_URL}/blog/edit/${params.title.replace(/-/g, " ")}`;
         const editorData = await editor.save()
-        setBlocks(editorData.blocks)
-        for (let i = 0; i < blocks().length; i++) {
-            const block = blocks()[i];
+        for (let i = 0; i < editorData.blocks.length; i++) {
+            const block = editorData.blocks[i];
             const htmlBlock = generateHtml(block.type, block.data)
             content = content + htmlBlock.outerHTML
         };
         const fd = new FormData();
         fd.append("title", title())
         fd.append("shortDescription", shortDescription())
-        fd.append("tags", selectedTags())
+        fd.append("tags", JSON.stringify(tags()))
+        fd.append("rawContent", JSON.stringify(editorData))
         fd.append("cover", cover())
         fd.append("content", content)
-        const { data } = await axios.post(URL, fd, { withCredentials: true });
+        const { data } = await axios.patch(URL, fd, { withCredentials: true });
         if (!data.success) {
             const { success, message } = data;
             setServerMessagee({ message: message.replace(/"/g, ""), success });
@@ -53,7 +52,8 @@ function Edit() {
             if (!label) return
             elementWithError = document.getElementById(label);
             elementWithError.classList.add("border-yellow-300");
-        } else window.location.href = `/blog/${title().replace(/ /g, "-")}`
+        } 
+        else window.location.href = `/blog/edit/${title().replace(/ /g, "-")}`
     };
     const handleSelectTag = async e => {
         const tag = e.target.value;

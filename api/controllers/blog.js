@@ -1,8 +1,8 @@
 import Blog from "../models/Blog.js";
-import Tag from "../models/Tag.js";
 import BlogSchema from "../validation/blog.js"
 import dayjs from "dayjs"
 import { deleteFile } from "../utilities/mediaMethods.js";
+import mongoose from "mongoose"
 export const getBlogs = async (req, res) => {
     try {
         const blogs = await Blog.find({ isActive: true }).populate("tags").lean();
@@ -16,7 +16,6 @@ export const getBlogs = async (req, res) => {
 export const getBlog = async (req, res) => {
     try {
         const title = req.params.title;
-
         const blog = await Blog.findOne({ title, isActive: true });
         res.send(blog);
     } catch (err) {
@@ -26,14 +25,14 @@ export const getBlog = async (req, res) => {
 };
 export const addBlog = async (req, res) => {
     try {
-        const { title, shortDescription, content,tags ,rawContent} = req.body;
-        await BlogSchema.validateAsync({ title, shortDescription, tags:JSON.parse(tags), content, });
+        const { title, shortDescription, content, tags, rawContent } = req.body;
+        await BlogSchema.validateAsync({ title, shortDescription, tags: JSON.parse(tags), content, });
         await Blog.create({
-            title,
+            title: title.trim(),
             shortDescription,
             content,
-            rawContent:JSON.parse(rawContent),
-            tags:JSON.parse(tags),
+            rawContent: JSON.parse(rawContent),
+            tags: JSON.parse(tags),
             date: dayjs().locale('de').format("MMMM D, YYYY"),
             cover: req.file.filename,
         });
@@ -48,22 +47,41 @@ export const addBlog = async (req, res) => {
 }
 export const editBlog = async (req, res) => {
     try {
-        const _id = req.params.id;
-        const editedFields = { $set: {} };
+        const title = req.params.title;
+        const blog = await Blog.findOne({ title });
+
         for (const key in req.body) {
             const fieldValue = req.body[key];
-            if (fieldValue !== "" && fieldValue !== " ") editedFields.$set[key] = fieldValue; 
+            switch (key) {
+                case "tags":
+                case "rawContent":
+                    const parsedValue = JSON.parse(req.body[key])
+                    blog[key] = parsedValue
+                    break;
+                case "cover":
+                default:
+                    if (fieldValue !== blog[key]) blog[key] = fieldValue.trim()
+            }
+
         };
         if (req.file) {
-            editedFields.$set["cover"] = req.file.filename
+            deleteFile(blog.cover)
+            blog["cover"] = req.file.filename;
         }
-        await Blog.updateOne({_id}, editedFields);
-        res.send({success: true})
+        await blog.save();
+        res.send({ success: true })
     } catch (err) {
         console.log(err);
         if (req.file) deleteFile(req.file.filename)
-        res.send({ success: false, message: err.message})
+        res.send({ success: false, message: err.message })
     }
 }
-export const disableBlog = async (req, res) => { }
+export const disableBlog = async (req, res) => {
+    const title = await req.params.title;
+    await Blog.updateOne({ title }, {
+        $set: {
+            "isActive": false
+        }
+    })
+}
 export const deleteBlog = async (req, res) => { }
