@@ -2,7 +2,6 @@ import EditorJS from '@editorjs/editorjs';
 import { getTags } from "../../actions/actions";
 import { createSignal, createResource, For, Show, createEffect } from 'solid-js';
 import editorConfig from '../../utilities/editorConfig';
-import generateHtml from "../../utilities/generateHtml";
 import axios from 'axios';
 function addBlog() {
     const [tags] = createResource(getTags);
@@ -11,7 +10,6 @@ function addBlog() {
     const [shortDescription, setShortDescription] = createSignal("");
     const [selectedTags, setSelectedTags] = createSignal([]);
     const [cover, setCover] = createSignal({});
-    const [blocks, setBlocks] = createSignal([]);
     const [isOpen, setIsOpen] = createSignal(false);
     let elementWithError = ""
     let editor;
@@ -30,19 +28,12 @@ function addBlog() {
         let content = "";
         const URL = `${import.meta.env.VITE_SERVER_URL}/blog/add`;
         const editorData = await editor.save()
-        setBlocks(editorData.blocks)
-        for (let i = 0; i < blocks().length; i++) {
-            const block = blocks()[i];
-            const htmlBlock = generateHtml(block.type, block.data)
-            content = content + htmlBlock.outerHTML
-        };
         const fd = new FormData();
         fd.append("title", title())
         fd.append("shortDescription", shortDescription())
         fd.append("tags", JSON.stringify(tags()))
         fd.append("rawContent", JSON.stringify(editorData))
         fd.append("cover", cover())
-        fd.append("content", content)
         const { data } = await axios.post(URL, fd, { withCredentials: true });
         if (!data.success) {
             const { success, message } = data;
@@ -93,7 +84,6 @@ function addBlog() {
         setShortDescription("")
         setSelectedTags([])
         setCover({})
-        setBlocks([]);
         setIsOpen(false)
     }
     return (

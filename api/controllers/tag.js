@@ -6,13 +6,24 @@ export const getTags = async (req, res) => {
         res.send(tags);
     } catch (err) {
         console.log(err);
-        res.send({ sucess: false, message: err.message });
+        res.send({ success: false, message: err.message });
     }
 };
+export const getTag = async (req, res) => {
+    try {
+        const title = req.params.title
+        const tag = await Tag.findOne({ title })
+        res.send({ success: true, tag });
+    } catch (err) {
+
+        console.log(err);
+        res.send({ success: false, message: err.message });
+    }
+}
 export const addTag = async (req, res) => {
     try {
         const { title } = req.body;
-        if (!title) return res.send({ sucess: false, message: "املا الحقل المطلوب" })
+        if (!title) return res.send({ success: false, message: "املا الحقل المطلوب" })
         await Tag.create({
             title,
             date: dayjs().locale('de').format("MMMM D, YYYY"),
@@ -20,8 +31,22 @@ export const addTag = async (req, res) => {
         res.send({ success: true })
     } catch (err) {
         console.log(err);
-        res.send({ sucess: false, message: err.message });
+        res.send({ success: false, message: err.message });
     }
 };
-export const deleteTag = async (req, res) => {};
-export const editTag = async (req, res) => {};
+export const editTag = async (req, res) => {
+    try {
+        const prevTitle = req.params.title;
+        const title = req.body.title;
+        await Tag.updateOne({ title: prevTitle }, {
+            $set: {
+                "title": title
+            }
+        })
+        res.send({ success: true })
+    } catch (err) {
+        console.log(err);
+    }
+
+};
+export const deleteTag = async (req, res) => { };

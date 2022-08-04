@@ -1,5 +1,5 @@
 import { createSignal, createResource, For, Show, createEffect } from 'solid-js';
-import { useParams } from "solid-app-router"
+import { useParams } from "@solidjs/router"
 import EditorJS from '@editorjs/editorjs';
 import { getBlog, getTags } from "../../actions/actions";
 import editorConfig from '../../utilities/editorConfig';
@@ -19,9 +19,11 @@ function Edit() {
     createEffect(() => {
         if (blog.loading) return;
         const { title, shortDescription, tags, rawContent, } = blog();
+        console.log(blog());
         setTitle(title)
         setSelectedTags(tags)
         setShortDescription(shortDescription);
+        console.log(rawContent);
         editor = new EditorJS({ ...editorConfig, data: rawContent })
     })
 
@@ -53,7 +55,7 @@ function Edit() {
             elementWithError = document.getElementById(label);
             elementWithError.classList.add("border-yellow-300");
         } 
-        else window.location.href = `/blog/edit/${title().replace(/ /g, "-")}`
+        else window.location.href = `/blog/${title().replace(/ /g, "-")}`
     };
     const handleSelectTag = async e => {
         const tag = e.target.value;

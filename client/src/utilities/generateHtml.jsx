@@ -23,7 +23,6 @@ const createElementWithContent = (tag, content, classes = []) => {
 };
 
 const generateHtml = (type, data) => {
-    console.log(type, data);
     switch (type) {
         case "paragraph":
             return createElementWithContent("p", data.text, ["text-[1.1rem]", "font-medium"])
@@ -38,19 +37,19 @@ const generateHtml = (type, data) => {
 
         case "code":
             const { code } = data;
-            const splitedCode = code.split("");
             const lines = []
             const highlighted = [];
             let num = 1;
-            for (let i = 0; i < splitedCode.length; i++) {
-                let element = splitedCode[i]
+            for (let i = 0; i < code.length; i++) {
+                let element = code[i]
+                console.log(element);
                 if (element.search("\n") > -1) lines.push(num++);
                 const keyword = keywords.find(k => k.title === element)
                 if (keyword) element = createElementWithContent("span", element, keyword.classes)
                 highlighted.push(element)
             }
             lines.push(num++)
-            return <div class="code-container">
+            return <div class="code-container mt-2">
                 <pre class="flex">
                     <div class="w-[5%] flex flex-col leading-[1.861em]">
                         {

@@ -7,7 +7,6 @@ const Schema = new mongoose.Schema({
         required: true,
     },
     date: { type: String, required: true },
-    content: { type: String, required: true, },
     rawContent: { type: Object, required: true},
     views: { type: Number, default: 0 },
     likes: { type: Array, default: [] },

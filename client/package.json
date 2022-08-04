@@ -17,8 +17,6 @@
     "vite-plugin-solid": "^2.2.6"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^34.2.0",
-    "@ckeditor/ckeditor5-react": "^5.0.2",
     "@editorjs/code": "^2.7.0",
     "@editorjs/editorjs": "^2.25.0",
     "@editorjs/embed": "^2.5.2",
@@ -27,11 +25,10 @@
     "@editorjs/list": "^1.7.0",
     "@editorjs/marker": "^1.2.2",
     "@fontsource/cairo": "^4.5.9",
-    "@fontsource/noto-sans-arabic": "^4.5.10",
     "@fontsource/roboto": "^4.5.7",
+    "@solidjs/router": "^0.4.2",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
-    "solid-app-router": "^0.3.3",
     "solid-js": "^1.4.2"
   }
 }

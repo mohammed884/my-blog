@@ -1,14 +1,21 @@
 import { createResource, Show ,createEffect} from "solid-js";
 import { getBlog } from "../../actions/actions";
-import { useParams } from 'solid-app-router';
+import { useParams } from '@solidjs/router';
+import generateHtml from "../../utilities/generateHtml";
 function Blog() {
     const params = useParams();
     const [blog] = createResource(params.title, getBlog);
-    // const [relatedBlogs] = createResource(blog().tags, getRelatedBlogs);
     createEffect(() => {
         if (blog.loading) return;
+        const rawContent = blog().rawContent;
+        let content = ""
+        for (let i = 0; i < rawContent.blocks.length; i++) {
+            const block = rawContent.blocks[i];
+            const htmlBlock = generateHtml(block.type, block.data)
+            content = content + htmlBlock.outerHTML
+        };
         const contentContainer = document.getElementById("content");
-        contentContainer.innerHTML = blog().content
+        contentContainer.innerHTML = content
     })
     return (
         <div class="w-[90%] h-[100vh] mx-auto">

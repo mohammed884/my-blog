@@ -15,5 +15,4 @@ router.post("/add", upload.single("cover"), addBlog);
 
 router.patch("/edit/:title", upload.single("cover"),editBlog);
 
-
 export default router;

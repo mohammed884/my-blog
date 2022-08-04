@@ -22,7 +22,7 @@ module.exports = {
       colors:{
         custom_blue:"#1363DF",
         light_dark:"#06283D",
-        off_white:"#f4f6f6",
+        off_white:"#F6F6F6",
       }
     },
   },

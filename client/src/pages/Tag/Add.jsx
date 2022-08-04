@@ -1,18 +1,20 @@
 import axios from "axios";
 import { createSignal } from "solid-js"
+import { useNavigate } from "@solidjs/router"
 function AddTag() {
     const [title, setTitle] = createSignal("");
     const [errorMessage, setErrorMessage] = createSignal("");
+    const navigate = useNavigate()
     const handleSubmit = async e => {
         e.preventDefault();
-        const URL = `${import.meta.env.VITE_SERVER_URL}/tag/add`;
+        const URL = `${import.meta.env.VITE_SERVER_URL}/tag/edit`;
         const res = await axios.post(URL, { title: title() }, { withCredentials: true });
-        if (res.data.success) return window.location.href = "/"
+        if (res.data.success) navigate("/", { replace: true })
         else setErrorMessage(res.data.message);
     }
     return (
         <div class="w-[100%] h-[100vh] mt-8">
-            <form class="sm:w-[90%] md:w-[60%] lg:w-[50%] xl:w-[30%] h-[60vh] bg-white shadow-md mx-auto p-3" onSubmit={handleSubmit}>
+            <form class="sm:w-[90%] md:w-[60%] lg:w-[50%] xl:w-[30%] h-fit bg-white shadow-md mx-auto rounded-md p-3" onSubmit={handleSubmit}>
                 {errorMessage() &&
                     <p class="w-[100%] bg-red-300 text-gray-800 rounded-sm border-r-2 border-red-500 p-3">
                         {errorMessage()}

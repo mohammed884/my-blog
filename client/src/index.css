@@ -21,6 +21,7 @@ input, textarea {
     white-space: pre;   
     color:#F1F1F1
 }
+
 @layer components {
     body {
         @apply bg-off_white ar
@@ -32,7 +33,10 @@ input, textarea {
         @apply text-[2.1rem] font-bold
     }
     .code-container {
-        @apply bg-gray-800 p-3 en
+        @apply bg-gray-800 p-3 en 
+    }
+    .code::selection {
+        @apply bg-slate-700
     }
     form div {
         @apply mt-3

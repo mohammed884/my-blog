@@ -2,12 +2,10 @@ import Blog from "../models/Blog.js";
 import BlogSchema from "../validation/blog.js"
 import dayjs from "dayjs"
 import { deleteFile } from "../utilities/mediaMethods.js";
-import mongoose from "mongoose"
 export const getBlogs = async (req, res) => {
     try {
-        const blogs = await Blog.find({ isActive: true }).populate("tags").lean();
+        const blogs = await Blog.find({ isActive: true }).populate("tags").select("-rawContent").lean();
         res.send(blogs);
-
     } catch (err) {
         console.log(err);
         res.send({ success: false, message: err.message });
@@ -16,7 +14,7 @@ export const getBlogs = async (req, res) => {
 export const getBlog = async (req, res) => {
     try {
         const title = req.params.title;
-        const blog = await Blog.findOne({ title, isActive: true });
+        const blog = await Blog.findOne({ title, isActive: true }).populate("tags");
         res.send(blog);
     } catch (err) {
         console.log(err);
@@ -25,15 +23,14 @@ export const getBlog = async (req, res) => {
 };
 export const addBlog = async (req, res) => {
     try {
-        const { title, shortDescription, content, tags, rawContent } = req.body;
-        await BlogSchema.validateAsync({ title, shortDescription, tags: JSON.parse(tags), content, });
+        const { title, shortDescription, tags, rawContent } = req.body;
+        await BlogSchema.validateAsync({ title, shortDescription, tags: JSON.parse(tags), rawContent: JSON.parse(rawContent) });
         await Blog.create({
             title: title.trim(),
             shortDescription,
-            content,
             rawContent: JSON.parse(rawContent),
             tags: JSON.parse(tags),
-            date: dayjs().locale('de').format("MMMM D, YYYY"),
+            date: dayjs().format("MMMM D, YYYY"),
             cover: req.file.filename,
         });
         res.send({ success: true })
@@ -44,7 +41,7 @@ export const addBlog = async (req, res) => {
         }
         else res.send({ success: false, message: err.message })
     }
-}
+};
 export const editBlog = async (req, res) => {
     try {
         const title = req.params.title;
@@ -59,10 +56,10 @@ export const editBlog = async (req, res) => {
                     blog[key] = parsedValue
                     break;
                 case "cover":
+                    break;
                 default:
                     if (fieldValue !== blog[key]) blog[key] = fieldValue.trim()
             }
-
         };
         if (req.file) {
             deleteFile(blog.cover)
@@ -75,13 +72,41 @@ export const editBlog = async (req, res) => {
         if (req.file) deleteFile(req.file.filename)
         res.send({ success: false, message: err.message })
     }
-}
+};
+export const likeBlog = async (req, res) => { }
 export const disableBlog = async (req, res) => {
-    const title = await req.params.title;
-    await Blog.updateOne({ title }, {
-        $set: {
-            "isActive": false
-        }
-    })
-}
-export const deleteBlog = async (req, res) => { }
+    try {
+        const title = await req.params.title;
+        await Blog.updateOne({ title }, {
+            $set: {
+                "isActive": false
+            }
+        })
+    } catch (err) {
+        console.log(err);
+        res.send({ success: false, message: err.message })
+    }
+};
+export const activeBlog = async (req, res) => {
+    try {
+        const title = await req.params.title;
+        await Blog.updateOne({ title }, {
+            $set: {
+                "isActive": true
+            }
+        })
+        res.send({ success: true })
+    } catch (err) {
+        console.log(err);
+        res.send({ success: false, message: err.message });
+    }
+};
+export const deleteBlog = async (req, res) => {
+    try {
+        const title = await req.params.title;
+        await Blog.deleteOne({ title });
+        res.send({ success: true })
+    } catch (err) {
+        res.send({ success: false, message: err.message })
+    }
+};

@@ -1,12 +1,10 @@
-import { Show, For, createSignal, createResource, createEffect } from "solid-js";
+import { Show, For, createSignal, createResource, } from "solid-js";
 import Search from "../components/Search";
 import { getBlogs } from "../actions/actions";
 import BlogList from "../components/BlogList";
 const [blogs] = createResource(getBlogs)
 const [filteredBlogs, setFilteredBlogs] = createSignal([])
 function home() {
-    createEffect(() => console.log(blogs()))
-    
     return (
         <section class="lg:w-[80%] h-[100vh] ar mx-auto">
             <Search />

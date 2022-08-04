@@ -1,5 +1,5 @@
 import { For } from "solid-js";
-import { Link } from "solid-app-router";
+import { Link } from "@solidjs/router";
 import { selectedTags } from "../components/Search"
 function BlogList({ blog, index, isPopular }) {
     const { title, tags, date, shortDescription, views, cover } = blog;
@@ -23,7 +23,7 @@ function BlogList({ blog, index, isPopular }) {
             <ul>
                 <li class="w-fit text-blue-600 hover:underline">
                     <Link href={`/blog/${title.replace(/ /g, "-")}`}>
-                        اقرا المقال
+                        اقرأ المقال
                     </Link>
                 </li>
             </ul>
