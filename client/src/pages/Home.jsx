@@ -2,7 +2,7 @@ import { Show, For, createSignal, createResource, } from "solid-js";
 import Search from "../components/Search";
 import { getBlogs } from "../actions/actions";
 import BlogList from "../components/BlogList";
-const [blogs] = createResource(getBlogs)
+const [blogs] = createResource("home",getBlogs)
 const [filteredBlogs, setFilteredBlogs] = createSignal([])
 function home() {
     return (
@@ -14,7 +14,7 @@ function home() {
                         <For each={filteredBlogs().length > 0 ? filteredBlogs() : blogs()}>{(blog, index) => <BlogList blog={blog} index={index} />}</For>
                     </Show>
                 </div>
-            </div>
+        </div>
         </section>
     )
 }

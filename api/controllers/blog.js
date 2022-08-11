@@ -4,7 +4,8 @@ import dayjs from "dayjs"
 import { deleteFile } from "../utilities/mediaMethods.js";
 export const getBlogs = async (req, res) => {
     try {
-        const blogs = await Blog.find({ isActive: true }).populate("tags").select("-rawContent").lean();
+        const blogs = await Blog.find({ isActive: true }).populate("tags").lean();
+        console.log("get blogs");
         res.send(blogs);
     } catch (err) {
         console.log(err);
@@ -73,7 +74,6 @@ export const editBlog = async (req, res) => {
         res.send({ success: false, message: err.message })
     }
 };
-export const likeBlog = async (req, res) => { }
 export const disableBlog = async (req, res) => {
     try {
         const title = await req.params.title;
@@ -103,8 +103,10 @@ export const activeBlog = async (req, res) => {
 };
 export const deleteBlog = async (req, res) => {
     try {
-        const title = await req.params.title;
-        await Blog.deleteOne({ title });
+        const title = req.params.title;
+        const blog = await Blog.findOne({title})
+        deleteFile(blog.cover);
+        await blog.delete;
         res.send({ success: true })
     } catch (err) {
         res.send({ success: false, message: err.message })

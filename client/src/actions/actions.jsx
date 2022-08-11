@@ -10,7 +10,8 @@ export const getTag = async title => {
     const { data } = await axios(url, { withCredentials: true });
     return data;
 }
-export const getBlogs = async () => {
+export const getBlogs = async (from) => {
+    console.log(from);
     const url = `${VITE_SERVER_URL}/blog`
     const { data } = await axios(url);
     return data;
@@ -22,7 +23,7 @@ export const getBlog = async title => {
 }
 export const getRole = async () => {
     const url = `${VITE_SERVER_URL}/role`
-    const { data } = await axios(url, {withCredentials: true});
+    const { data } = await axios(url, { withCredentials: true });
     return data;
 }
 export const search = async title => {

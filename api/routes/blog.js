@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getBlogs, getBlog, addBlog, editBlog } from "../controllers/blog.js";
+import { getBlogs, getBlog, addBlog, editBlog, deleteBlog } from "../controllers/blog.js";
 import { upload } from "../utilities/mediaMethods.js";
 import {isAdmin} from "../middleware/middleware.js"
 const router = Router();
@@ -15,4 +15,5 @@ router.post("/add", upload.single("cover"), addBlog);
 
 router.patch("/edit/:title", upload.single("cover"),editBlog);
 
+router.delete("/delete/:title", deleteBlog)
 export default router;

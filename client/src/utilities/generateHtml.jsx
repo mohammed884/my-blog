@@ -1,35 +1,20 @@
-const keywords = [
-    { title: "(", classes: ["text-[#E8630A]"] },
-    { title: ")", classes: ["text-[#E8630A]"] },
-    { title: `"`, classes: ["text-[#F15412]"] },
-    { title: `'`, classes: ["text-[#F15412]"] },
-    { title: "{", classes: ["text-yellow-500"] },
-    { title: "}", classes: ["text-yellow-500"] },
-    { title: "/", classes: ["text-blue-300"] },
-    { title: "[", classes: ["text-[#EBECF1]"] },
-    { title: "]", classes: ["text-[#EBECF1]"] },
-    { title: "<", classes: ["text-blue-300"] },
-    { title: ">", classes: ["text-blue-300"] },
-    { title: "=", classes: ["text-blue-300"] },
-    { title: "$", classes: ["text-red-500"] },
-    { title: "&", classes: ["text-red-500"] },
-    { title: ".", classes: ["text-[#E8630A]"] },
-]
+import keywords from "../constants/keywords"
+import style from "../style/blogIndex.module.css";
+import highlighter from "highlight.js"
 const createElementWithContent = (tag, content, classes = []) => {
     const el = document.createElement(tag);
-    if (classes.length > 0) classes.forEach(cl => el.classList.add(cl));
+    classes.forEach(cl => el.classList.add(cl));
     el.innerHTML = content
     return el
 };
-
 const generateHtml = (type, data) => {
     switch (type) {
         case "paragraph":
-            return createElementWithContent("p", data.text, ["text-[1.1rem]", "font-medium"])
+            return createElementWithContent("p", data.text, ["w-[100%]", "text-[1.2rem]", "font-medium", "mt-3"])
 
         case "list":
             const { items } = data;
-            return <ul>{items.map(list => createElementWithContent("li", list))}</ul>
+            return <ul class="list-decimal mt-3">{items.map(list => createElementWithContent("li", list, ["text-[1.2rem]", "mt-2"]))}</ul>
 
         case "header":
             const { text, level } = data;
@@ -37,33 +22,43 @@ const generateHtml = (type, data) => {
 
         case "code":
             const { code } = data;
-            const lines = []
-            const highlighted = [];
-            let num = 1;
-            for (let i = 0; i < code.length; i++) {
-                let element = code[i]
-                console.log(element);
-                if (element.search("\n") > -1) lines.push(num++);
-                const keyword = keywords.find(k => k.title === element)
-                if (keyword) element = createElementWithContent("span", element, keyword.classes)
-                highlighted.push(element)
-            }
-            lines.push(num++)
-            return <div class="code-container mt-2">
-                <pre class="flex">
-                    <div class="w-[5%] flex flex-col leading-[1.861em]">
-                        {
-                            lines.map(line => <span class="text-slate-200">
-                                {line}
-                                <span class="text-[#FF5656]"> -&gt</span>
-                            </span>)
-                        }
-                    </div>
-                    <code class="code" is:raw>
-                        {highlighted}
-                    </code>
+            const lines = code.split("\n").length;
+            // for (let i = 0; i < s.length; i++) {
+            //     let element = s[i];
+            //     console.log(element);
+            //     const isNewLine = element.search("\n") > -1
+            //     const keyword = keywords.find(k => {
+            //         let isFounded = undefined
+            //         if (k.title === element) isFounded = k;
+            //         else if (element.search(k.title) > -1) {
+            //             element = createElementWithContent("div", element.replace(k.title, ""));
+            //             isFounded = { ...k, index: i - 1 > -1 ? i - 1 : 0 }
+            //         }
+            //         return isFounded
+            //     });
+            //     if (isNewLine) lines++;
+            //     // if (keyword && !keyword.index) element = createElementWithContent("span", `${element} `, keyword.classes);
+            //     if (keyword) {
+            //         highlighted.splice(i - 1, 0, createElementWithContent("span", `${keyword.title}     `, keyword.classes))
+            //     }
+            //     highlighted.push(typeof element !== "object" ? element : `${element} `)
+            // }
+            console.log(code);
+            return <div class="bg-[#f5f5fb] rounded-md p-3 en mt-3">
+                 <pre class="flex">
+                     <div class="flex flex-col leading-[1.861em] sm:mr-3 lg:mt-0">
+                         {
+                             Array(lines).fill(lines).map((_, i) => <span class="text-slate-900">
+                                 {i + 1}
+                                 <span class="text-[#FF5656]"> -&gt</span>
+                             </span>)
+                         }
+                     </div>
+                     <code class={`${style.code}`} >
+                        {highlighter.highlight(code, {language: "javascript"}).value}
+                     </code>
                 </pre>
-            </div>
+            </div> 
 
         case "embed":
             const { embed, service, width, height, caption } = data;

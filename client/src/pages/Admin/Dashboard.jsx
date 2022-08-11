@@ -13,7 +13,7 @@ function dashboard() {
                 <ul class="flex flex-col justify-center items-center">
                     <For each={links}>
                         {link => <Link class="w-[100%]" href={link.href}>
-                            <li class="w-[100%] bg-white text-center p-3 mt-2">
+                            <li class="w-[100%] border-b-2 border-t-2 border-custom_blue bg-slate-100 hover:bg-slate-200 text-center p-3 mt-2">
                                 {link.title}
                             </li>
                         </Link>

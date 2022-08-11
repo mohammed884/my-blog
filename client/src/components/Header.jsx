@@ -6,7 +6,7 @@ function Header() {
             <nav class="w-[80%] h-[100%] flex items-center mx-auto">
                 <ul>
                     <li class="text-[#1a1a1a] font-bold">
-                        <NavLink href="/">Mohammed Abdulaziz Blog</NavLink>
+                        <NavLink end href="/">Mohammed Abdulaziz Blog</NavLink>
                     </li>
                 </ul>
             </nav>

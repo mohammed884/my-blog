@@ -9,7 +9,6 @@ const Schema = new mongoose.Schema({
     date: { type: String, required: true },
     rawContent: { type: Object, required: true},
     views: { type: Number, default: 0 },
-    likes: { type: Array, default: [] },
     isActive: { type: Boolean, default: true },
     cover:{type:String, required: true}
 });

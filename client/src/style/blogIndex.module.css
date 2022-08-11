@@ -1,0 +1,32 @@
+
+ul li {
+    list-style-position: inside;
+}
+.code {
+    tab-size: 4;  
+    line-height: 1.8em;
+    white-space: pre;   
+    word-wrap: break-word;
+    color:#1e293b;
+    overflow:auto;
+}
+code::selection {
+    background:#e2e8f0
+}
+code span::selection {
+    background:#e2e8f0
+
+}
+.cdx-marker {
+    padding:.2rem;
+    background:#374151;
+    border-radius: 5px;
+    margin-left: .3rem;
+    margin-top: .8rem;
+}
+.content-header {
+    @apply text-[2.1rem] font-bold
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

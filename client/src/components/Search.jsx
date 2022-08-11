@@ -19,11 +19,11 @@ function Search() {
         timeout = setTimeout(async () => console.log("send a request"), 1000);
     }
     return (
-        <div class="mt-8 sm:w-[100%] lg:w-[40%] min-h-[20vh]">
+        <div class="mt-8 sm:w-[90%] lg:w-[40%] min-h-[20vh]">
             <div class="mb-3">
-                <input onInput={handleSearch} class="w-[100%] bg-white border-r-2 rounded-sm outline-0 border-custom_blue p-2" type="search" placeholder="ابحث من هنا..." />
+                <input onInput={handleSearch} class="w-[100%] bg-slate-200 border-r-2 rounded-sm outline-0 border-custom_blue p-2" type="search" placeholder="ابحث من هنا..." />
             </div>
-            <div class="w-[70%] bg-slate-200 rounded-[.1em] border-r-2 border-emerald-400 p-2 mt-2">
+            <div class="w-[70%] bg-light_dark-200 bg-slate-200 rounded-[.1em] border-r-2 border-emerald-500 p-2 mt-2">
                 <div class="flex">
                     <span class="font-bold">ملاحظة</span>
                 </div>
@@ -43,18 +43,19 @@ function Search() {
                                                 flex 
                                                 w-fit 
                                                 h-fit 
+                                           
                                                 pl-4 
                                                 border
-                                                ${selectedTags().includes(tag.title) ? "border-emerald-400" : "border-[#06283D]"}
+                                                ${selectedTags().includes(tag.title) ? "border-emerald-400" : "border-light_dark"}
                                                 cursor-pointer 
                                                 rounded-sm
                                                 opacity-90
                                                 down-effect
                                             `}>
                                         <div class="flex items-center justify-center bg-blue-500 ml-3 pr-1">
-                                            <span class="ml-2 text-slate-100">{tag.count}</span>
+                                            <span class="ml-2">{tag.count}</span>
                                         </div>
-                                        <div class="flex en">
+                                        <div class="flex en ">
                                             <p class="text-[1.1rem]">{tag.title}</p>
                                         </div>
                                     </label>

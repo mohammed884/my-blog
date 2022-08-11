@@ -22,7 +22,8 @@ module.exports = {
       colors:{
         custom_blue:"#1363DF",
         light_dark:"#06283D",
-        off_white:"#F6F6F6",
+        dark:"#161a1d",
+        off_white:"#f7f7f7",
       }
     },
   },
@@ -31,3 +32,4 @@ module.exports = {
   },
   plugins: [],
 }
+//#e5e7eb

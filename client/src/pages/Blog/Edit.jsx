@@ -20,11 +20,10 @@ function Edit() {
         if (blog.loading) return;
         const { title, shortDescription, tags, rawContent, } = blog();
         console.log(blog());
-        setTitle(title)
-        setSelectedTags(tags)
+        setTitle(title);
+        setSelectedTags(tags);
         setShortDescription(shortDescription);
-        console.log(rawContent);
-        editor = new EditorJS({ ...editorConfig, data: rawContent })
+        editor = new EditorJS({ ...editorConfig, data: rawContent });
     })
 
     const handleSubmit = async e => {
@@ -70,13 +69,13 @@ function Edit() {
     };
 
     return (
-        <div class="sm:w-[97%] md:w-[80%] xl:w-[50%] min-h-[100vh] bg-white mx-auto mt-8 shadow-md rounded-md p-6">
+        <div class="sm:w-[97%] md:w-[80%] xl:w-[50%] min-h-[100vh] mx-auto mt-8 shadow-md rounded-md p-6">
             <div class="flex justify-between sticky">
                 <h1 class="w-fit text-[1.8rem] text-light_dark font-bold p-2  border-custom_blue">تعديل المدونه</h1>
             </div>
             <div>
                 {serverMessage().message &&
-                    <p class="w-[100%] bg-red-300 text-gray-800 rounded-sm border-r-2 border-red-500 p-3">
+                    <p class="w-[100%] bg-red-300 text-slate-200 rounded-sm border-r-2 border-red-500 p-3">
                         {serverMessage().message}
                     </p>
                 }
@@ -131,7 +130,7 @@ function Edit() {
                     </div>
                 </div>
                 <div class="flex mt-3 items-center justify-between">
-                    <button type="submit" class="bg-blue-500 text-slate-100 p-2 rounded-md">اضف المقال</button>
+                    <button type="submit" class="bg-blue-500 text-slate-100 p-2 rounded-md">طبق التعديل</button>
                 </div>
             </form>
         </div>

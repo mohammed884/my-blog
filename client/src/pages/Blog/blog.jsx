@@ -1,4 +1,4 @@
-import { createResource, Show ,createEffect} from "solid-js";
+import { createResource, Show, createEffect } from "solid-js";
 import { getBlog } from "../../actions/actions";
 import { useParams } from '@solidjs/router';
 import generateHtml from "../../utilities/generateHtml";
@@ -7,44 +7,27 @@ function Blog() {
     const [blog] = createResource(params.title, getBlog);
     createEffect(() => {
         if (blog.loading) return;
-        const rawContent = blog().rawContent;
         let content = ""
+        const rawContent = blog().rawContent;
         for (let i = 0; i < rawContent.blocks.length; i++) {
             const block = rawContent.blocks[i];
             const htmlBlock = generateHtml(block.type, block.data)
-            content = content + htmlBlock.outerHTML
+            content = `${content}${htmlBlock.outerHTML}`;
         };
         const contentContainer = document.getElementById("content");
         contentContainer.innerHTML = content
-    })
+    });
     return (
-        <div class="w-[90%] h-[100vh] mx-auto">
+        <div class="sm:w-[96%] lg:w-[80%] xl:w-[60%] h-[100vh] mx-auto">
             <Show when={!blog.loading} fallback={<p>...Loading</p>}>
-                <article class="w-[80%] h-[100%] mx-auto mt-12">
+                <article class="w-[100%] h-[100%] mx-auto mt-12 leading-8">
                     <div class="w-[100%] h-fit justify-between flex items-center">
                         <h1 class="text-[2.2rem] text-light_dark font-semibold">{blog().title}</h1>
-                        <div class="flex items-center mr-2">
-                            <img
-                                class="rotate-180 bg-white rounded-full border border-green-500 ml-2 cursor-pointer"
-                                src="/src/assets/svgs/arrow.svg"
-                                width="30"
-                                height="30"
-                                alt="arrow up" />
-                            <span class="text-[1.09rem]">{blog().likes.length}</span>
-                            <img
-                                class="bg-white rounded-full border border-red-500 mr-2 cursor-pointer"
-                                height="30"
-                                width="30"
-                                src="/src/assets/svgs/arrow.svg"
-                                alt="arrow down" />
+                        <div class="flex">
                         </div>
                     </div>
-                    <time class="text-[.9rem] text-light_dark">{blog().date}</time>
-                    <div
-                        class="w-[100%] min-h-[90%] text-light_dark bg-[#f4f6f6] mt-4 resize-none outline-none"
-                        id="content">
-                        {blog().content}
-                    </div>
+                    <time class="text-[.9rem]">{blog().date}</time>
+                    <div class="w-[100%] text-gray-800 mt-4" id="content"></div>
                     <div class="mt-5">
                         <For each={blog().tags}>
                             {tag => <span class="border border-custom_blue p-2">{tag.title}</span>}
